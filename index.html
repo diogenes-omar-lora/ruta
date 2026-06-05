@@ -442,7 +442,7 @@
                         <!-- KPIs Rápidos -->
                         <div class="grid grid-cols-2 gap-2">
                             <div class="bg-slate-950 p-2.5 rounded-xl border border-slate-800">
-                                <span class="text-[9px] text-slate-400 block uppercase font-medium">Unidades ONSA</span>
+                                <span class="text-[9px] text-slate-400 block uppercase font-medium">Unidades OMSA</span>
                                 <div class="flex items-baseline gap-1.5 mt-0.5">
                                     <span id="active-buses-count" class="text-sm font-black text-white">12</span>
                                     <span class="text-[8px] text-emerald-400 font-bold">100% On</span>
@@ -614,7 +614,7 @@
                                 <i data-lucide="brain-circuit" class="w-4.5 h-4.5 text-indigo-400 animate-pulse"></i> Análisis Predictivo IA v2.0
                             </h3>
                             <p class="text-[11px] text-slate-300 leading-relaxed">
-                                El optimizador inteligente procesa datos históricos de demoras de la ONSA y patrones de tráfico reales del Distrito Nacional para formular desvíos dinámicos.
+                                El optimizador inteligente procesa datos históricos de demoras de la OMSA y patrones de tráfico reales del Distrito Nacional para formular desvíos dinámicos.
                             </p>
                             
                             <div class="space-y-1">
@@ -752,7 +752,7 @@
                 <!-- El Mapa de Leaflet (Por defecto inicia con la clase dark-theme-tiles) -->
                 <div id="map" class="w-full h-full bg-slate-950 dark-theme-tiles"></div>
 
-                <!-- Leyenda del Mapa -->
+                <!-- Leyenda del Mapa
                 <div id="map-legend" class="absolute top-24 right-4 z-[1000] bg-slate-900/90 backdrop-blur border border-slate-800 rounded-xl text-xs max-w-[200px] transition-all duration-300 shadow-2xl">
                     <button onclick="toggleLegend()" class="w-full flex items-center justify-between gap-3 px-3.5 py-2 font-bold text-white text-[11px] uppercase border-b border-slate-800 bg-slate-950/20 rounded-t-xl">
                         <span>Simbología</span>
@@ -761,11 +761,11 @@
                     <div id="legend-content" class="p-3.5 space-y-2 hidden lg:block">
                         <div class="flex items-center gap-2">
                             <div class="w-4 h-4 rounded-full bg-blue-500 border border-white flex items-center justify-center text-[8px] text-white font-bold shadow">🚌</div>
-                            <span class="text-slate-300 text-[10px]">ONSA (Ida ➜)</span>
+                            <span class="text-slate-300 text-[10px]">OMSA (Ida ➜)</span>
                         </div>
                         <div class="flex items-center gap-2">
                             <div class="w-4 h-4 rounded-full bg-purple-500 border border-white flex items-center justify-center text-[8px] text-white font-bold shadow">🚌</div>
-                            <span class="text-slate-300 text-[10px]">ONSA (Vuelta ⬅)</span>
+                            <span class="text-slate-300 text-[10px]">OMSA (Vuelta ⬅)</span>
                         </div>
                         <div class="flex items-center gap-2">
                             <div class="w-4 h-4 rounded-full bg-emerald-500 border border-white flex items-center justify-center text-[8px] shadow">🚶‍♂️</div>
@@ -780,7 +780,7 @@
                             <span class="text-purple-400 text-[10px]">Bypass / Desvío IA</span>
                         </div>
                     </div>
-                </div>
+                </div> -->
 
                 <!-- Botón Flotante Chat de IA -->
                 <button id="ai-chat-toggle-btn" onclick="toggleAIChat()" class="hidden absolute bottom-4 right-4 z-[1001] w-14 h-14 bg-gradient-to-tr from-blue-600 to-indigo-600 hover:from-blue-500 hover:to-indigo-500 text-white rounded-full shadow-2xl flex items-center justify-center transition-all duration-300 hover:scale-110 focus:outline-none active:scale-95 group">
@@ -813,7 +813,7 @@
                     
                     <div id="ai-chat-box" class="flex-1 p-4 overflow-y-auto space-y-3.5 text-xs text-slate-300 scrollbar-thin">
                         <div class="bg-blue-600/10 border border-blue-500/15 p-3 rounded-xl leading-relaxed">
-                            <strong class="text-blue-400">RuteaSmart IA:</strong> ¡Hola! ¿Hacia dónde te diriges hoy en el Distrito Nacional? Pregúntame cómo llegar y te sugeriré la mejor ONSA o alternativa de concho.
+                            <strong class="text-blue-400">RuteaSmart IA:</strong> ¡Hola! ¿Hacia dónde te diriges hoy en el Distrito Nacional? Pregúntame cómo llegar y te sugeriré la mejor OMSA o alternativa de concho.
                         </div>
                     </div>
 
@@ -957,7 +957,7 @@
                         <option value="congestion">Congestión vehicular masiva (Tapón)</option>
                         <option value="accident">Accidente de tránsito / Choque</option>
                         <option value="puddle">Inundación urbana de carril</option>
-                        <option value="mechanical">Autobús ONSA con falla mecánica</option>
+                        <option value="mechanical">Autobús OMSA con falla mecánica</option>
                     </select>
                 </div>
                 <div>
@@ -1161,7 +1161,7 @@
 
         let incidents = [
             { id: 1, lat: 18.4815, lng: -69.9240, type: 'traffic', desc: 'Congestión vial masiva en intersección Máximo Gómez con Kennedy.' },
-            { id: 2, lat: 18.4608, lng: -69.9419, type: 'accident', desc: 'Choque leve obstruye carril ONSA en Churchill con 27 de Febrero.' }
+            { id: 2, lat: 18.4608, lng: -69.9419, type: 'accident', desc: 'Choque leve obstruye carril OMSA en Churchill con 27 de Febrero.' }
         ];
 
         async function initFirebase() {
@@ -1308,7 +1308,7 @@
                 return "Oye bien, para moverte por toda la **Av. John F. Kennedy** lo mejor es abordar la Ruta Naranja (Línea Kennedy). Tiene la Ficha 2105 transitando ahora mismo. Si vas para el Km 9, ten paciencia que hay desvíos parciales por reparaciones.";
             }
             if (cleanQuery.includes('churchill') || cleanQuery.includes('blue mall') || cleanQuery.includes('27')) {
-                return "Fácil: la **Winston Churchill (Línea Verde)** cruza justo con la **27 de Febrero (Línea Azul)**. Es la parada donde estás tú ahora mismo. Hay un choque leve reportado en esa misma esquina, así que los buses están tomando de 5 a 8 minutos extra. ¡Vete en la ONSA para que vayas con aire!";
+                return "Fácil: la **Winston Churchill (Línea Verde)** cruza justo con la **27 de Febrero (Línea Azul)**. Es la parada donde estás tú ahora mismo. Hay un choque leve reportado en esa misma esquina, así que los buses están tomando de 5 a 8 minutos extra. ¡Vete en la OMSA para que vayas con aire!";
             }
             if (cleanQuery.includes('tapón') || cleanQuery.includes('tránsito') || cleanQuery.includes('congestión')) {
                 return "¡Manito, la Gómez y la Churchill están que no se puede transitar hoy! El sistema de IA recomienda usar el **Bypass Inteligente** en la Línea de la Gómez para ahorrarte por lo menos 15 minutos de camino.";
@@ -1345,7 +1345,7 @@
             `;
             chatBox.scrollTop = chatBox.scrollHeight;
 
-            const systemPrompt = "Eres 'RuteaSmartRD IA', el asistente virtual del Distrito Nacional para transporte público. Tu objetivo es responder de forma ultra-breve y útil en español dominicano. Conoces estas 6 rutas de la ONSA: 27 de Febrero, Kennedy, Churchill, Gómez, Lincoln e Independencia. Recomienda el mejor trayecto.";
+            const systemPrompt = "Eres 'RuteaSmartRD IA', el asistente virtual del Distrito Nacional para transporte público. Tu objetivo es responder de forma ultra-breve y útil en español dominicano. Conoces estas 6 rutas de la OMSA: 27 de Febrero, Kennedy, Churchill, Gómez, Lincoln e Independencia. Recomienda el mejor trayecto.";
 
             const reply = await callGemini(systemPrompt, query);
 
@@ -1769,7 +1769,7 @@
                         b.delayed = false;
                     }
                 });
-                showToast(`¡Parámetros de ONSA optimizados con IA en Corredor ${routeId.toUpperCase()}!`);
+                showToast(`¡Parámetros de OMSA optimizados con IA en Corredor ${routeId.toUpperCase()}!`);
             }
 
             if (isCreation) {
@@ -1821,7 +1821,7 @@
 
         async function deleteRoute(routeId) {
             if (Object.keys(stopsDescriptions).length <= 1) {
-                showToast("Debe haber al menos una ruta operacional de ONSA.");
+                showToast("Debe haber al menos una ruta operacional de OMSA.");
                 return;
             }
 
@@ -2176,7 +2176,7 @@
             const steps = [
                 `Iniciando análisis de tiempos de recorrido para ${routeName}...`,
                 `Sondeando base de datos de incidentes activos y paradas congestionadas...`,
-                `Detectando velocidades promedio de ONSA actuales...`,
+                `Detectando velocidades promedio de OMSA actuales...`,
                 `Calculando vector de desvío dinámico óptimo (sin afectar coordenadas de paradas)...`,
                 `Trazando bypass de mitigación en el mapa interactivo...`,
                 `¡Desvío de precisión de la IA generado con éxito!`
