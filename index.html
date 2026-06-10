@@ -166,20 +166,114 @@
         }
 
         /* ── RESPONSIVE MOBILE ─────────────────────────────────────── */
+
+        /* ── LOGIN: tabs de solo íconos en móvil ── */
         @media (max-width: 640px) {
-            /* Login: quitar overflow hidden para que el teclado no corte */
             #login-screen {
                 align-items: flex-start;
-                padding-top: 1.5rem;
+                padding-top: 1rem;
                 overflow-y: auto;
             }
-            /* Sidebar ocupa toda la pantalla en mobile */
-            #sidebar-container {
-                width: 100vw !important;
+
+            /* Tabs del login: solo íconos grandes con color de rol */
+            .login-tab-btn .tab-label { display: none; }
+            .login-tab-btn {
+                flex-direction: column;
+                padding: 0.875rem 0.5rem;
+                gap: 0;
+                position: relative;
             }
+            .login-tab-btn i { width: 1.625rem !important; height: 1.625rem !important; }
+
+            /* Nombre del rol activo se muestra debajo del selector */
+            #active-role-name {
+                display: block !important;
+            }
+        }
+
+        /* ── VISTA CIUDADANO MÓVIL: mapa arriba, panel abajo colapsable ── */
+        @media (max-width: 1024px) {
+            body.citizen-mobile-mode #main-app {
+                flex-direction: column;
+            }
+            body.citizen-mobile-mode main.flex-1 {
+                flex-direction: column !important;
+                overflow: hidden !important;
+                position: relative !important;
+            }
+
+            /* Mapa: order 1 → aparece arriba, ocupa todo menos el panel */
+            body.citizen-mobile-mode #map-section {
+                order: 1 !important;
+                flex: 1 1 0 !important;
+                min-height: 0 !important;
+                position: relative !important;
+                overflow: hidden !important;
+            }
+            body.citizen-mobile-mode #map {
+                position: absolute !important;
+                inset: 0 !important;
+            }
+
+            /* Panel: order 2 → aparece abajo, altura fija colapsable */
+            body.citizen-mobile-mode #sidebar-container {
+                order: 2 !important;
+                position: relative !important;
+                inset: auto !important;
+                flex: 0 0 auto !important;
+                width: 100% !important;
+                max-height: 56px !important;
+                transform: none !important;
+                border-radius: 1rem 1rem 0 0 !important;
+                border-right: none !important;
+                border-top: 2px solid #334155 !important;
+                overflow: hidden !important;
+                transition: max-height 0.45s cubic-bezier(0.4, 0, 0.2, 1) !important;
+                z-index: auto !important;
+                display: flex !important;
+                flex-direction: column !important;
+                background: #0f172a !important;
+            }
+            body.citizen-mobile-mode #sidebar-container.sheet-open {
+                max-height: 55vh !important;
+            }
+
+            /* Scrollable inner: solo activo cuando abierto */
+            body.citizen-mobile-mode #sidebar-scrollable {
+                flex: 1 !important;
+                overflow-y: auto !important;
+            }
+
+            /* Handle siempre visible */
+            #citizen-sheet-handle {
+                display: flex !important;
+                cursor: pointer !important;
+            }
+
+            /* Ocultar X del sidebar */
+            body.citizen-mobile-mode #sidebar-container .lg\:hidden.flex.justify-between {
+                display: none !important;
+            }
+            /* Ocultar hamburguesa del header */
+            body.citizen-mobile-mode #sidebar-toggle-btn {
+                display: none !important;
+            }
+            /* Ocultar backdrop */
+            body.citizen-mobile-mode #sidebar-backdrop {
+                display: none !important;
+            }
+        }
+
+        @media (max-width: 640px) {
             /* HUD conductor más compacto */
             #hud-next-stop { font-size: 12px; }
             #hud-speed, #hud-stop-counter { font-size: 16px; }
+
+            /* Sidebar ocupa toda la pantalla en mobile (no-ciudadano) */
+            body:not(.citizen-mobile-mode) #sidebar-container {
+                width: 100vw !important;
+            }
+
             /* Modales: pantalla completa en mobile */
             #fleet-modal > div,
             #drivers-modal > div,
@@ -226,19 +320,23 @@
             </div>
 
             <!-- Selector de Rol (Tabs) -->
-            <div class="flex bg-slate-950 p-1.5 rounded-xl border border-slate-800 mb-6 font-semibold text-sm">
-                <button onclick="setLoginTab('citizen')" id="tab-btn-citizen" class="flex-1 flex flex-col sm:flex-row items-center justify-center gap-1 sm:gap-2 px-2 sm:px-4 py-3 rounded-lg transition-all duration-300 bg-blue-600 text-white shadow">
+            <div class="flex bg-slate-950 p-1.5 rounded-xl border border-slate-800 mb-2 font-semibold text-sm gap-1">
+                <button onclick="setLoginTab('citizen')" id="tab-btn-citizen" class="login-tab-btn flex-1 flex flex-col sm:flex-row items-center justify-center gap-1 sm:gap-2 px-2 sm:px-4 py-3 rounded-lg transition-all duration-300 bg-blue-600 text-white shadow">
                     <i data-lucide="user" class="w-5 h-5 sm:w-4 sm:h-4"></i>
-                    <span class="text-[10px] sm:text-sm">Ciudadano</span>
+                    <span class="tab-label text-[10px] sm:text-sm">Ciudadano</span>
                 </button>
-                <button onclick="setLoginTab('driver')" id="tab-btn-driver" class="flex-1 flex flex-col sm:flex-row items-center justify-center gap-1 sm:gap-2 px-2 sm:px-4 py-3 rounded-lg transition-all duration-300 text-slate-400 hover:text-white">
+                <button onclick="setLoginTab('driver')" id="tab-btn-driver" class="login-tab-btn flex-1 flex flex-col sm:flex-row items-center justify-center gap-1 sm:gap-2 px-2 sm:px-4 py-3 rounded-lg transition-all duration-300 text-slate-400 hover:text-white">
                     <i data-lucide="bus" class="w-5 h-5 sm:w-4 sm:h-4"></i>
-                    <span class="text-[10px] sm:text-sm">Conductor</span>
+                    <span class="tab-label text-[10px] sm:text-sm">Conductor</span>
                 </button>
-                <button onclick="setLoginTab('operator')" id="tab-btn-operator" class="flex-1 flex flex-col sm:flex-row items-center justify-center gap-1 sm:gap-2 px-2 sm:px-4 py-3 rounded-lg transition-all duration-300 text-slate-400 hover:text-white">
-                    <i data-lucide="shield" class="w-5 h-5 sm:w-4 sm:h-4"></i>
-                    <span class="text-[10px] sm:text-sm">Operador</span>
+                <button onclick="setLoginTab('operator')" id="tab-btn-operator" class="login-tab-btn flex-1 flex flex-col sm:flex-row items-center justify-center gap-1 sm:gap-2 px-2 sm:px-4 py-3 rounded-lg transition-all duration-300 text-slate-400 hover:text-white">
+                    <i data-lucide="shield-check" class="w-5 h-5 sm:w-4 sm:h-4"></i>
+                    <span class="tab-label text-[10px] sm:text-sm">Operador</span>
                 </button>
+            </div>
+            <!-- Nombre del rol activo (visible solo en móvil cuando los labels están ocultos) -->
+            <div id="active-role-name" class="hidden text-center mb-4">
+                <span id="active-role-label" class="text-xs font-bold text-blue-400 uppercase tracking-widest bg-blue-600/10 border border-blue-500/20 px-3 py-1 rounded-full">Ciudadano</span>
             </div>
 
             <!-- Formulario del Login -->
@@ -360,9 +458,21 @@
             </div>
         </header>
 
-        <main class="flex-1 flex overflow-hidden relative">
+        <main class="flex-1 flex overflow-hidden relative h-full">
             <!-- Sidebar Panel -->
             <section id="sidebar-container" class="fixed lg:relative inset-y-0 left-0 z-[1005] w-full sm:w-[400px] lg:w-[380px] xl:w-[440px] bg-slate-900 border-r border-slate-800 flex flex-col shrink-0 overflow-y-auto transition-transform duration-300 transform -translate-x-full lg:translate-x-0">
+
+                <!-- Handle del bottom sheet (solo visible en modo ciudadano móvil) -->
+                <div id="citizen-sheet-handle" class="hidden w-full py-2.5 flex-col items-center cursor-pointer shrink-0 bg-slate-900 rounded-t-xl select-none active:bg-slate-800 transition-colors" onclick="toggleCitizenSheet()">
+                    <div class="w-10 h-1 bg-slate-600 rounded-full mb-2"></div>
+                    <div class="flex items-center gap-2 px-4">
+                        <i data-lucide="bus" class="w-3.5 h-3.5 text-blue-400"></i>
+                        <span id="sheet-handle-label" class="text-[11px] font-bold text-slate-200 uppercase tracking-wider flex-1">Rutas y paradas</span>
+                        <i data-lucide="chevron-up" id="sheet-chevron" class="w-4 h-4 text-slate-400 transition-transform duration-300"></i>
+                    </div>
+                </div>
+
+                <div id="sidebar-scrollable" class="sheet-scrollable flex flex-col flex-1 overflow-y-auto">
                 <div class="lg:hidden flex justify-between items-center px-6 py-4 border-b border-slate-800 bg-slate-950/40 shrink-0">
                     <span class="text-xs font-bold text-slate-400 uppercase tracking-wider">Opciones</span>
                     <button onclick="toggleSidebar()" class="p-1.5 bg-slate-800 hover:bg-slate-700 rounded-lg text-slate-400 hover:text-white transition-all">
@@ -763,10 +873,11 @@
                         </div>
                     </div>
                 </div>
+                </div><!-- /#sidebar-scrollable -->
             </section>
 
             <!-- Map Area -->
-            <section class="flex-1 relative flex flex-col min-w-0 min-h-0">
+            <section id="map-section" class="flex-1 relative flex flex-col min-w-0 min-h-0">
                 <div class="absolute top-4 left-4 z-[1000] bg-slate-900/95 backdrop-blur-sm border border-slate-800 p-3.5 rounded-xl shadow-2xl max-w-xs pointer-events-auto">
                     <div class="flex items-center gap-2 mb-2">
                         <span class="w-2.5 h-2.5 rounded-full bg-emerald-500 animate-pulse"></span>
@@ -1113,7 +1224,7 @@
 
 
 
-    <div id="toast" class="fixed bottom-6 left-1/2 transform -translate-x-1/2 z-[9999] bg-gradient-to-r from-blue-600 to-indigo-600 border border-blue-500 text-white px-6 py-3 rounded-xl shadow-2xl flex items-center gap-3 transition-all duration-300 translate-y-24 opacity-0 pointer-events-none">
+    <div id="toast" class="fixed top-6 left-1/2 transform -translate-x-1/2 z-[9999] bg-gradient-to-r from-blue-600 to-indigo-600 border border-blue-500 text-white px-6 py-3 rounded-xl shadow-2xl flex items-center gap-3 transition-all duration-300 -translate-y-20 opacity-0 pointer-events-none">
         <i data-lucide="bell" class="w-5 h-5 animate-bounce"></i>
         <span id="toast-text" class="text-sm font-semibold">Mensaje del Sistema</span>
     </div>
@@ -1140,6 +1251,7 @@
         let activeRole = 'citizen';
         let loginRoleTab = 'citizen';
         let chartInstance = null;
+        let activeRouteId = 'all'; // rastrea la ruta seleccionada actualmente
 
         let currentDriverBusId = null;
 
@@ -1162,11 +1274,11 @@
             const toastText = document.getElementById('toast-text');
             if (!toast || !toastText) return;
             toastText.textContent = message;
-            toast.classList.remove('translate-y-24', 'opacity-0', 'pointer-events-none');
+            toast.classList.remove('-translate-y-20', 'opacity-0', 'pointer-events-none');
             toast.classList.add('translate-y-0', 'opacity-100');
             if (_toastTimeout) clearTimeout(_toastTimeout);
             _toastTimeout = setTimeout(() => {
-                toast.classList.add('translate-y-24', 'opacity-0', 'pointer-events-none');
+                toast.classList.add('-translate-y-20', 'opacity-0', 'pointer-events-none');
                 toast.classList.remove('translate-y-0', 'opacity-100');
             }, 3000);
         }
@@ -1625,23 +1737,28 @@
             const fDriver = document.getElementById('form-driver-fields');
             const fOperator = document.getElementById('form-operator-fields');
 
-            btnCitizen.className = "flex-1 flex items-center justify-center gap-2 px-4 py-3 rounded-lg text-sm font-semibold transition-all duration-300 text-slate-400 hover:text-white";
-            btnDriver.className = "flex-1 flex items-center justify-center gap-2 px-4 py-3 rounded-lg text-sm font-semibold transition-all duration-300 text-slate-400 hover:text-white";
-            btnOperator.className = "flex-1 flex items-center justify-center gap-2 px-4 py-3 rounded-lg text-sm font-semibold transition-all duration-300 text-slate-400 hover:text-white";
+            const baseClass = "login-tab-btn flex-1 flex flex-col sm:flex-row items-center justify-center gap-1 sm:gap-2 px-2 sm:px-4 py-3 rounded-lg transition-all duration-300 text-slate-400 hover:text-white";
+            btnCitizen.className = baseClass;
+            btnDriver.className = baseClass;
+            btnOperator.className = baseClass;
             
             fCitizen.classList.add('hidden');
             fDriver.classList.add('hidden');
             fOperator.classList.add('hidden');
 
+            const roleLabel = document.getElementById('active-role-label');
             if (tab === 'citizen') {
-                btnCitizen.className = "flex-1 flex items-center justify-center gap-2 px-4 py-3 rounded-lg text-sm font-semibold transition-all duration-300 bg-blue-600 text-white shadow";
+                btnCitizen.className = "login-tab-btn flex-1 flex flex-col sm:flex-row items-center justify-center gap-1 sm:gap-2 px-2 sm:px-4 py-3 rounded-lg transition-all duration-300 bg-blue-600 text-white shadow";
                 fCitizen.classList.remove('hidden');
+                if (roleLabel) { roleLabel.textContent = 'Ciudadano'; roleLabel.className = 'text-xs font-bold text-blue-400 uppercase tracking-widest bg-blue-600/10 border border-blue-500/20 px-3 py-1 rounded-full'; }
             } else if (tab === 'driver') {
-                btnDriver.className = "flex-1 flex items-center justify-center gap-2 px-4 py-3 rounded-lg text-sm font-semibold transition-all duration-300 bg-indigo-600 text-white shadow";
+                btnDriver.className = "login-tab-btn flex-1 flex flex-col sm:flex-row items-center justify-center gap-1 sm:gap-2 px-2 sm:px-4 py-3 rounded-lg transition-all duration-300 bg-indigo-600 text-white shadow";
                 fDriver.classList.remove('hidden');
+                if (roleLabel) { roleLabel.textContent = 'Conductor'; roleLabel.className = 'text-xs font-bold text-indigo-400 uppercase tracking-widest bg-indigo-600/10 border border-indigo-500/20 px-3 py-1 rounded-full'; }
             } else {
-                btnOperator.className = "flex-1 flex items-center justify-center gap-2 px-4 py-3 rounded-lg text-sm font-semibold transition-all duration-300 bg-emerald-600 text-white shadow";
+                btnOperator.className = "login-tab-btn flex-1 flex flex-col sm:flex-row items-center justify-center gap-1 sm:gap-2 px-2 sm:px-4 py-3 rounded-lg transition-all duration-300 bg-emerald-600 text-white shadow";
                 fOperator.classList.remove('hidden');
+                if (roleLabel) { roleLabel.textContent = 'Operador INTRANT'; roleLabel.className = 'text-xs font-bold text-emerald-400 uppercase tracking-widest bg-emerald-600/10 border border-emerald-500/20 px-3 py-1 rounded-full'; }
             }
         }
 
@@ -1685,6 +1802,14 @@
             loginScreen.classList.add('opacity-0', 'pointer-events-none');
             mainApp.classList.remove('hidden');
 
+            // Modo bottom-sheet solo para ciudadano en móvil/tablet
+            if (role === 'citizen' && window.innerWidth < 1024) {
+                document.body.classList.add('citizen-mobile-mode');
+                updateCitizenSheetHandle(false);
+            } else {
+                document.body.classList.remove('citizen-mobile-mode');
+            }
+
             setTimeout(() => {
                 loginScreen.classList.add('hidden');
                 initMap();
@@ -1695,6 +1820,24 @@
                     }
                 }, 300);
             }, 500);
+        }
+
+        function toggleCitizenSheet() {
+            const container = document.getElementById('sidebar-container');
+            const isOpen = container.classList.contains('sheet-open');
+            container.classList.toggle('sheet-open', !isOpen);
+            const label = document.getElementById('sheet-handle-label');
+            const chevron = document.getElementById('sheet-chevron');
+            if (label) label.textContent = !isOpen ? 'Cerrar panel' : 'Rutas y paradas';
+            if (chevron) chevron.style.transform = !isOpen ? 'rotate(180deg)' : 'rotate(0deg)';
+            setTimeout(() => { if (map) map.invalidateSize(); }, 340);
+        }
+
+        function updateCitizenSheetHandle(isOpen) {
+            const label = document.getElementById('sheet-handle-label');
+            const chevron = document.getElementById('sheet-chevron');
+            if (label) label.textContent = isOpen ? 'Cerrar panel' : 'Rutas y paradas';
+            if (chevron) chevron.style.transform = isOpen ? 'rotate(180deg)' : 'rotate(0deg)';
         }
 
         function logout() {
@@ -1732,8 +1875,10 @@
 
             // Resetear estado del rol
             activeRole = null;
+            activeRouteId = 'all';
             currentDriverBusId = null;
             isCurrentlyOptimizing = false;
+            document.body.classList.remove('citizen-mobile-mode');
 
             loginScreen.classList.remove('hidden');
             setTimeout(() => {
@@ -1817,6 +1962,14 @@
 
             drawCitizenPosition(); 
             drawIncidents();
+
+            // Clic en área vacía del mapa → deseleccionar ruta activa
+            map.on('click', () => {
+                if (activeRole === 'conductor') return;
+                if (activeRouteId !== 'all') {
+                    onRouteSelected('all');
+                }
+            });
             
             snapAllRoutesToStreetGrid().then(() => {
                 drawAllRoutes();
@@ -1915,13 +2068,12 @@
                     className: isConductorMode ? 'conductor-waze-route leaflet-interactive' : 'leaflet-interactive'
                 }).addTo(map);
 
-                polyline.on('click', () => {
+                polyline.on('click', (e) => {
+                    L.DomEvent.stopPropagation(e);
                     if (activeRole === 'conductor') return;
-                    const selector = activeRole === 'citizen' ? document.getElementById('citizen-route-select') : document.getElementById('operator-route-select');
-                    if (selector) {
-                        selector.value = routeId;
-                        onRouteSelected(routeId);
-                    }
+                    // Toggle: si ya está activa esta ruta, deseleccionar
+                    const next = (activeRouteId === routeId) ? 'all' : routeId;
+                    onRouteSelected(next);
                 });
 
                 polyline.bindTooltip(`Corredor: ${routeId === '27' ? '27 de Febrero' : routeId === 'kennedy' ? 'Kennedy' : routeId.toUpperCase()}`, {
@@ -2009,7 +2161,8 @@
                         }
                     });
 
-                    marker.on('click', () => {
+                    marker.on('click', (e) => {
+                        L.DomEvent.stopPropagation(e);
                         if (activeRole === 'conductor') return;
                         const routeSelector = activeRole === 'citizen' ? document.getElementById('citizen-route-select') : document.getElementById('operator-route-select');
                         if (routeSelector && routeSelector.value !== routeId) {
@@ -2370,6 +2523,7 @@
         }
 
         function onRouteSelected(routeId) {
+            activeRouteId = routeId; // actualizar estado global
             const citSelect = document.getElementById('citizen-route-select');
             const operSelect = document.getElementById('operator-route-select');
             if (citSelect) citSelect.value = routeId;
@@ -4143,6 +4297,7 @@
 
         // Exponer funciones al scope global (requerido por <script type="module">)
         window.toggleSidebar = toggleSidebar;
+        window.toggleCitizenSheet = toggleCitizenSheet;
         window.setLoginTab = setLoginTab;
         window.loginAs = loginAs;
         window.logout = logout;
